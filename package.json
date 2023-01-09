@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "serverapp.js",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.17.3",
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.20",
+    "remotedebug-ios-webkit-adapter": "^0.1.2",
+    "stellar-sdk": "^10.0.1",
+    "vs-libimobile": "^0.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
