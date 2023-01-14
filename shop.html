@@ -1,117 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-       <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PiWormhole Payment Gateway</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <!-- IOS support -->
-    <meta name="apple-mobile-web-app-status-bar" content="#db4938" />
-    <meta name="theme-color" content="#db4938" />
-    <meta name="application-name" content="PiWormhole" />
-    <link href="css\style.css" rel="stylesheet" type="text/css"/>
-  </head>
+<head>
   
-  <body>
-  <div class="menu">
-      <main>
-       <h1>
-        <img src="/image.png" alt="wormhole icon"/> 
-        PIWORMHOLE
-        </h1> 
-        <!-- <hr> -->
-        <section>
-          <h2 id="heading" style="display:none ;">Bill Breakdown</h2>
+   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pie Market</title>
+  <link href="css1/style.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+</head>
 
-          <section>
-            <h2>
-                <article class="item">
+<body>  
+    
+  <div class="navbar">
+   <h2>Pie Market</h2>
+    </a>
 
-                <p class="leftbutton">
-                    <button id = "retriever" style="display: none; border-radius: 15px; width: 110px;" onclick="retrieveMerchantData();">View Payment</button>
-                </p><p class="rightbutton">
-                    <button id = "logout" style="border-radius: 15px; display: none; width: 110px;" onclick="logOut(); sendTrx();">Logout</button>
-                </p> 
-            </article>
-        </h2>
-        </section>
+    <a href="shop.html">
+      <div style=display:none; id = "finalBill"></div>
+      <div class="cart">
+        <i class="bi bi-cart2"></i>
+        <!--div id="cartAmount" class="cartAmount">0</div-->
+      </div>
+    </a>
 
-          <article class="item">
-            <p class="costItem" id="merchantp" style="display:none">Merchant:</p><p class="price" id="Merchant Name" style="display:none"></p>
-          </article>
-          <article class="item">
-            <p class="costItem" id="cost" style="display:none">Item Cost:</p><p class="price" id="PaymentAmnt" style="display:none"></p>
-          </article>
-          <article class="item">
-            <p class="costItem" id="pwhfees" style="display:none">PiWormhole Fees (0.25%):</p><p class="price" id="Fees" style="display:none"></p>
-          </article>
-          <article class="item">
-            <p class="costItem" id="sum" style="display:none">Total to Pay</p><p class="price" id="Total" style="display:none"></p>
-          </article>
+  </div>
 
-          <article class="item">
-            <p class="costItem" id = "Success" style = display:none style = font-size:x-large; style = color:green> Payment Successful! </p>
-         </article>
+  <div id="label" class="text-center"></div>
+  <p id = "userId"></p> 
+ 
+  <div class="shopping-cart" id="shopping-cart"></div>
+  <div id="overlay" >
+    <div id="text">Redirecting to payment page. <br></br>
+                   If payment page does not open in 30 seconds,<span></span> <a href="https://sandbox.minepi.com/app/piwormhole" target="_blank">click here</a> <span></span> to open a secure payment page.         
+       </div>
+  </div>
 
-        <article class="item">
-            <p class="costItem" id = "Complete Data" style = display:none> Transaction ID:</p>
-            <p class="costItem2" id="TRXID" style="display:none"></p>
-        </article>
-
-        <article class="item">
-           <p class="costItem2" id = "Cancelled" style = "display:none;"> Payment Cancelled! You were not charged for this transaction. Logout to return to merchant's page</p>
-           <p class="costItem2" id = "Cancelled2" style = "display:none;"> Payment Cancelled! You were not charged for this transaction. Logout to return to merchant's page</p>
-           <p class="costItem2" id = "Logged Out" style = "display:none;"> Log out Successful. You will now be returned to merchant's page</p>
-           <p class="costItem2" id = "Wrong User" style = "display:none;"> Incorrect Pi Username Entered on Merchant's Site. Refresh page to return to Merchant's Site</p>
-           <p class="costItem2" id = "actualPiId" style = "display:none;"> </p>
-           <p id = "PaymentAmnt2" style = "display:none;"> </p>
-           <p id = "dBid" style = "display:none;"> </p>
-
-
-          </article>
-         </section>
-        <section>
-            <h2>
-                <article class="item">
-
-                <p class="leftbutton">
-                    <button id = "pay" disabled="true" style=" display: none; border-radius: 15px; height: 25px; width: 60px; font: bolder; color: white; background-color: rgb(0, 85, 128);
-                    " onclick="seekConfirmation();">Pay   </button>
-                </p><p class="rightbutton">
-                        <button id = "cancel" style=" display: none; border-radius: 15px; height: 25px; width: 60px; font: bolder; color: white; background-color: red;
-                        "  onclick="setTimeout(cancel, 100);">Cancel</button>
-                </p> 
-            </article>
-
-            <button id = "connector" style="border-radius: 15px; height: 40px;" onclick="auth();">Login to make payment</button>
-        </h2>
-        </section>
-      </main>
-      <hr class="bottom-line">
-      <footer>
-        <p>
-          <button class="a" onclick="history.go(-1)">Cancel and return to merchant's site</button>
-          <!--<button class="a" onclick="history.back()">Cancel and return to merchant's site</button>-->
-          <!--<a href="https://www.piwormhole.tech" target="_blank">Cancel and return to merchant's site</a>-->
-        </p>
-        <p class="established">© Copyright PayShed 2021</p>
-        <p class="address">We live on the web</p>
-      </footer>
-    </div>
-    <script type="text/javascript">                
-
-function seekConfirmation(){
-  const pmtConfirm = confirm("Are you sure you want to make this payment?")
-  if(pmtConfirm) {
-  {setTimeout(makePayment, 100)}
-  }else {cancel()}
-}
-</script>
-
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>src = front-end.js</script>
-
+  <div id="overlay2" >
+    <div id="text2">Completing payment.....please wait
+       </div>
+  </div>
+<script src = "shopscript.js"></script>
 </body>
 </html>
