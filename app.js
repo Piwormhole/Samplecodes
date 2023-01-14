@@ -11,10 +11,7 @@ let dBase = new Datastore('working_database.db')
 dBase.loadDatabase();
 let dBase2 = new Datastore('confimation_database.db')
 dBase2.loadDatabase();
-//dBase.insert({information : "Test Data"})
-
-// dBase.insert({information : "Test Data2"})
-const port =  process.env.PORT || 8020;
+const port =  process.env.PORT || [port number here];
 
 // Add Access Control Allow Origin headers
 app.use((req, res, next) => {
@@ -25,81 +22,60 @@ app.use((req, res, next) => {
     );
     next();
   });
-  app.use(express.static("public"));
+  app.use(express.static("[folder name containing static files here]"));
 
 app.get("/", (req, res) => {
-// res.status(200).sendFile(__dirname + "/public/dummy-store.html");
-res.status(200).sendFile(__dirname + "/public/app new.html");
+res.status(200).sendFile(__dirname + "/public/[html file here]");
 });
 
-//Next specidfy the listening port  
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.timeout = 2000;
 
-//Next you need to host your client static files (web page) on express.
-//app.use(express.static('public')); 
-
-//Next let the server know to read JSON files
 app.use(express.json());
 
 const myKey = process.env.myKey
 const piURL ='https://api.minepi.com/v2/payments';
 
-// Merchant data Route
 app.post('/merchant', async (request, response) => {
 let data = request.body;
+// Add some data validation code to check type of data being recieved
 dBase.insert(data)
-// console.log(data)
 dBase.find({ piId: request.body.piId}, function(err, docs) {
  
   let shopper = docs 
-  
   let customer = shopper.filter(function (cust) {
   if ((Date.now() - cust.timeStamp)<3000  && (cust.Merchant == request.body.Merchant ))
-  
   {return cust}
   });
-  
-  // console.log(customer)
    response.json(customer)
   })
-
-//response.json(data)
  })
 
 app.post('/payshed', (request, response) => {
 const datax = request.body
+// Add some data validation code to check type of data being recieved
 let actualUser = request.body.piId
 console.log(datax)
 dBase.find({ piId: request.body.piId}, function(err, docs) {
- 
 let pwhUser = docs 
-
 let payer = pwhUser.filter(function (user) {
   if ((Date.now() - user.timeStamp)<60000  && (user.piId == actualUser ))
 {return user}
 });
-
-// console.log(payer)
- response.json(payer)
- 
-  //console.log(docs)
-} )
-//response.json(datax);
-   }) 
+response.json(payer)
+ })
+}) 
 
 // let dB = [];
 app.post('/reference', async (request, response) =>{
-
+// Add some data validation code to check type of data being recieved
 const dataR = request.body
 dBase2.insert(dataR)
 console.log(dataR)
 
 response.json(dataR)
-// }
 
-// if(refNumber && refNumber != "logged out" && piId) {
 app.get('/reference2', async (request, response) => {
 
   dBase2.find({ piId: dataR.piId}, function(err, docs) {
@@ -115,17 +91,12 @@ app.get('/reference2', async (request, response) => {
      response.json(payerConfirmed)
     })
   })
-// }
-// else if (refNumber == "logged out"){
-//     app.get('/reference2', async (request, response) => {
-      
-//        })   
-// }
- 
+
 });
 
 //Approve Route 
     app.post('/approve', async (request, response) => {
+        // Add some data validation code to check type of data being recieved
         const paymentId = request.body.paymentId.toString();
         
         const options1 = {
@@ -135,10 +106,9 @@ app.get('/reference2', async (request, response) => {
                  }
                          };
     
-//Next, create an order along with paymentId from pi Server
+//send order status to merchant to create order along with paymentId from pi Server
 //await HTMLAllCollection.insertOne({pi_paymentid: paymentId}); 
         
-// Next hit the approve end point to approve the payment
     hitEndpoints(piURL, paymentId, options1, 'approve')
   
      })
@@ -158,10 +128,8 @@ app.get('/reference2', async (request, response) => {
                      },
             body: JSON.stringify(txid)  
                          };
-//do something with incomplete payment such as reserve his item or complete it and then arrange a refund 
                   
-//Next hit the complete end point to complete the payment
-    hitEndpoints(piURL, paymentId, options2, 'complete')
+hitEndpoints(piURL, paymentId, options2, 'complete')
              })
 
 //Cancel Route  
@@ -175,8 +143,7 @@ app.get('/reference2', async (request, response) => {
                   'Content-Type': 'application/json'
                          };
  
-// Next hit the complete end point to complete the payment
-   // hitEndpoints(piURL, paymentId, options3, 'cancel')  
+// send status to merchant to let them know payment was cancelled
      })
 
 //Incomplete Route  
@@ -195,9 +162,8 @@ app.get('/reference2', async (request, response) => {
                  },
         body: JSON.stringify(txid)  
                         };
-//do something with incomplete payment such as reserve his item 
-              
-//Next hit the complete end point to complete the payment
+//Send status to merchant to do something with incomplete payment such as reserve item or complete it and then arrange a refund 
+
     hitEndpoints(piURL, paymentId, options, 'complete') 
          })
 
