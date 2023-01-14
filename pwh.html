@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+       <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PiWormhole Payment Gateway</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- IOS support -->
+    <meta name="apple-mobile-web-app-status-bar" content="#db4938" />
+    <meta name="theme-color" content="#db4938" />
+    <meta name="application-name" content="PiWormhole" />
+    <link href="css\style.css" rel="stylesheet" type="text/css"/>
+  </head>
+  
+  <body>
+  <div class="menu">
+      <main>
+       <h1>
+        <img src="/image.png" alt="wormhole icon"/> 
+        <!--PIWORMHOLE-->
+        </h1> 
+        <!-- <hr> -->
+        <section>
+          <h2 id="heading" style="display:none ;">Bill Breakdown</h2>
+
+          <section>
+            <h2>
+                <article class="item">
+
+                <p class="leftbutton">
+                    <button id = "retriever" style="display: none; border-radius: 15px; width: 110px;" onclick="retrieveMerchantData(); spinner();">View Payment</button>
+                </p><p class="rightbutton">
+                    <button id = "logout" style="border-radius: 15px; display: none; width: 110px;" onclick="logOut(); sendTrx(); spinner();">Logout</button>
+                </p> 
+            </article>
+        </h2>
+        </section>
+        <div id="spinner" class="loading"></div>
+
+
+          <article class="item">
+            <p class="costItem" id="merchantp" style="display:none">Merchant:</p><p class="price" id="Merchant Name" style="display:none"></p>
+          </article>
+          <article class="item">
+            <p class="costItem" id="cost" style="display:none">Item Cost:</p><p class="price" id="PaymentAmnt" style="display:none"></p>
+          </article>
+          <article class="item">
+            <p class="costItem" id="pwhfees" style="display:none">PWH Fees (0.25%):</p><p class="price" id="Fees" style="display:none"></p>
+          </article>
+          <article class="item">
+            <p class="costItem" id="sum" style="display:none">Total to Pay</p><p class="price" id="Total" style="display:none"></p>
+          </article>
+
+          <article class="item">
+            <p class="costItem3" id = "Success" style = display:none; style = color:green> Payment Successful! Logout to complete transaction </p>
+         </article>
+
+        <article class="item">
+            <p class="costItem3" id = "Complete Data" style = display:none> Transaction ID:</p><p class="costItem3" id="TRXID" style="display:none;"></p>
+        </article>
+
+        <article class="item">
+           <p class="costItem2" id = "Cancelled" style = "display:none;"> Payment Cancelled! You were not charged for this transaction. Returning to Merchant's Site...Please Wait</p>
+           <p class="costItem2" id = "Cancelled2" style = "display:none;"> Payment Cancelled! You were not charged for this transaction. Returning to Merchant's Site...Please Wait</p>
+           <p class="costItem4" id = "Logged Out" style = "display:none;"> User Logged Out. Returning to Merchant's Site...Please Wait</p>
+           <p class="costItem2" id = "Wrong User" style = "display:none;"> Incorrect Pi user name. Return to merchant's site and enter correct user name </p>
+           <p class="costItem2" id = "actualPiId" style = "display:none;"> </p>
+           <p id = "PaymentAmnt2" style = "display:none;"> </p>
+           <p id = "dBid" style = "display:none;"> </p>
+        </article>
+
+         </section>
+        <section>
+            <h2>
+                <article class="item">
+
+                <p class="leftbutton">
+                    <button id = "pay" disabled="true" style=" display: none; border-radius: 15px; height: 25px; width: 60px; font: bolder; color: white; background-color: rgb(0, 85, 128);
+                    " onclick="seekConfirmation();">Pay   </button>
+                </p><p class="rightbutton">
+                        <button id = "cancel" style=" display: none; border-radius: 15px; height: 25px; width: 60px; font: bolder; color: white; background-color: red;
+                        "  onclick="setTimeout(cancel, 100); spinner();">Cancel</button>
+                </p> 
+            </article>
+
+            <button id = "connector" style="border-radius: 15px; height: 40px;" onclick="auth(); spinner();">Login to make payment</button>
+        </h2>
+        </section>
+      </main>
+      <hr class="bottom-line">
+      <footer>
+        <p>
+          <button class="a" onclick="history.go(-1)">Cancel and return to merchant's site</button>
+          <!--<button class="a" onclick="history.back()">Cancel and return to merchant's site</button>-->
+          <!--<a href="https://www.piwormhole.tech" target="_blank">Cancel and return to merchant's site</a>-->
+        </p>
+        <p class="established">© Copyright PayShed 2021</p>
+        <p class="address">We live on the web!</p>
+      </footer>
+    </div>
+
+
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+<script type="text/javascript" src="front-end.js"></script>    
+
+</body>
+</html>
