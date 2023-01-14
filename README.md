@@ -10,10 +10,10 @@ Requirements - Node JS, Node Terminal (or any other terminal), NedB, code editor
 - Install necessary modules 
 - update app.js file with appropriate file paths (peculiar to your set up)
 - run app.js file on Node JS terminal
-- open another terminal and run index.js  
+- update app.js file with appropriate file paths (peculiar to your set up)
+- open another terminal and run shop.js  
 - click "Pay with Pi"
 - follow instructions and complete payment / cancel payment
-
 
 Non-developers: 
 Requirements - Pi Browser, Pi wallet
