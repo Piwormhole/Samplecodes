@@ -13,7 +13,6 @@ let dBase2 = new Datastore('confimation_database.db')
 dBase2.loadDatabase();
 const port =  process.env.PORT || [port number here];
 
-// Add Access Control Allow Origin headers
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header(
@@ -107,8 +106,7 @@ app.get('/reference2', async (request, response) => {
                          };
     
 //send order status to merchant to create order along with paymentId from pi Server
-//await HTMLAllCollection.insertOne({pi_paymentid: paymentId}); 
-        
+       
     hitEndpoints(piURL, paymentId, options1, 'approve')
   
      })
