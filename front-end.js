@@ -13,7 +13,7 @@ function seekConfirmation(){
                   "payment":payment,
                   "action" : "incomplete"
              };
-  const config = {
+  const options = {
       method: 'POST',
       headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ function seekConfirmation(){
                },
       body: JSON.stringify(data)  
                  };
-const incompRes = await fetch('/incomplete', config); //.then(response //this works both ways...sends data to server=> 
+const incompRes = await fetch('/incomplete', options); //.then(response //this works both ways...sends data to server=> 
 const incompResData = await incompRes.json()
                       };
 async function auth (){
@@ -38,7 +38,7 @@ window.Pi.authenticate(scopes, onIncompletePaymentFound).then(async function(aut
                   "accessToken": accessToken,
                   "action" : "verify user"
           };
-   const config0 = {
+   const options0 = {
      method: 'POST',
       headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ window.Pi.authenticate(scopes, onIncompletePaymentFound).then(async function(aut
     body: JSON.stringify(data0)  
                  };
                  console.log(data0)
- const meRes = await fetch('/me', config0);
+ const meRes = await fetch('/me', options0);
  const meResponseData = await meRes.json()
   if (meResponseData.username == userName) {
    connecting.innerText = "Connected as "+userName
@@ -169,7 +169,7 @@ let data1 = {
           };
 
 console.log(`Payment ${paymentId} is ReadyForServerApproval`);
-  const config1 = {
+  const options1 = {
      method: 'POST',
       headers: {
                 'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ console.log(`Payment ${paymentId} is ReadyForServerApproval`);
                },
     body: JSON.stringify(data1)  
                  };
-const response = await fetch('/approve', config1);
+const response = await fetch('/approve', options1);
 const reponseData = await response.json()
 },
 
@@ -190,7 +190,7 @@ let data2 = {
            };
 console.log(txid)
 localStorage.setItem("trxid", txid)
-const config2 = {
+const options2 = {
       method: 'POST',
       headers: {
                 'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ const config2 = {
                },
       body: JSON.stringify(data2)  
                  };
-const completeRes = await fetch('/complete', config2)
+const completeRes = await fetch('/complete', options2)
 const completeresData = await completeRes.json()
 
 },
@@ -210,7 +210,7 @@ let data3 = {
 console.log(`"Payment Cancelled "${paymentId}`);
 localStorage.setItem("cancelled", paymentId)
 
-const config3 = {
+const options3 = {
       method: 'POST',
        headers: {
                  'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ const config3 = {
                 },
        body: JSON.stringify(data3)  
                };
-const response = await fetch('/cancel', config3);
+const response = await fetch('/cancel', options3);
 },
 
 onError : (error, payment) => {
@@ -357,7 +357,7 @@ function sendTrx(){
                                 timeStamp: Date.now()
                               }
                            
-                    const config = {
+                    const options5 = {
                                     method: 'POST',
                                     headers: {
                                               'Content-Type': 'application/json',
@@ -366,7 +366,7 @@ function sendTrx(){
                                     body: JSON.stringify(msg)  
                                    };
                 async function emitter(){
-                   const refRes = await fetch('/reference', config); //.then(response //this works both ways...sends data to server=> 
+                   const refRes = await fetch('/reference', options5); //.then(response //this works both ways...sends data to server=> 
                    const refResData = await refRes.json()
                    console.log(refResData)
                    if(refResData.reference != null) {
@@ -391,7 +391,7 @@ function sendTrx(){
                                 timeStamp: Date.now()
                               }
                            
-                    const config = {
+                    const options6 = {
                                     method: 'POST',
                                     headers: {
                                               'Content-Type': 'application/json',
@@ -400,7 +400,7 @@ function sendTrx(){
                                     body: JSON.stringify(msg)  
                                    };
                 async function emitter(){
-                   const refRes = await fetch('/reference', config); //.then(response //this works both ways...sends data to server=> 
+                   const refRes = await fetch('/reference', options6); //.then(response //this works both ways...sends data to server=> 
                    const refResData = await refRes.json()
                    
                    localStorage.removeItem("trxid") 
