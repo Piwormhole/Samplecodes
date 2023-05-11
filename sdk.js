@@ -1,149 +1,100 @@
-//To do 
-//Find a way to extract the payment status 
+class userData{
+  async collectPiId() {
+      const enterUser = async () => {
+        const piUser = prompt(
+          "Please enter your Pi user name without the @ sign. Note that this is case sensitive"
+        );
+        if (piUser == null || piUser == "" || !piUser) {
+          alert("Your Pi user name is required before you can make payment");
+          return false;
+        } else {
+          return piUser
+        }
+      }
+     return await enterUser();
+  }
 
-let label = document.getElementById("label");
-let ShoppingCart = document.getElementById("shopping-cart");
-
-let basket = JSON.parse(localStorage.getItem("data")) || [];
-
-let ov1 = "overlay"; 
-let ov2 = "overlay2";
-function on(overlay) {
-  document.getElementById(overlay).style.display = "block";
 }
 
-function off(overlay) {
-  document.getElementById(overlay).style.display = "none";
-}
-
-let calculation = () => {
-  let cartIcon = document.getElementById("cartAmount");
-  cartIcon.innerHTML = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
-};
-
-calculation();
-
-let generateCartItems = () => {
-  if (basket.length !== 0) {
-    return (ShoppingCart.innerHTML = basket
-      .map((x) => {
-        let { id, item } = x;
-        let search = shopItemsData.find((y) => y.id === id) || [];
-        return `
-      <div class="cart-item">
-        <img width="100" src=${search.img} alt="" />
-        <div class="details">
-
-          <div class="title-price-x">
-              <h4 class="title-price">
-                <p>${search.name}</p>
-                <p class="cart-item-price"> ${search.price} π</p>
-              </h4>
-              <i id = "close" onclick="removeItem(${id})" class="bi bi-x-lg"></i>
-          </div>
-
-          <div class="buttons">
-              <i id = "dec" onclick="decrement(${id})" class="bi bi-dash-lg"></i>
-              <div id=${id} class="quantity">${item}</div>
-              <i id = "incr" onclick="increment(${id})" class="bi bi-plus-lg"></i>
-          </div>
-
-          <h3> ${item * search.price} π</h3>
-        </div>
-      </div>
-      `;
-      })
-      .join(""));
-  } else {
-    ShoppingCart.innerHTML = ``;
-    label.innerHTML = `
-    <h2 id = "empty">No Items Left In Cart</h2>
-    <a href="index.html">
-      <button class="HomeBtn">Return to Shop</button>
-    </a>
-    `;
-  }
-};
-
-generateCartItems();
-
-let increment = (id) => {
-  let selectedItem = id;
-  let search = basket.find((x) => x.id === selectedItem.id);
-
-  if (search === undefined) {
-    basket.push({
-      id: selectedItem.id,
-      item: 1,
-    });
-  } else {
-    search.item += 1;
+class PostMessage{
+  constructor (Merchant, finalPrice, piId, timeStamp, url, PC) {
+    this.Merchant = Merchant
+    this.finalPrice = finalPrice
+    this.piId = piId
+    this.timeStamp = timeStamp
+    this.url = url
+    this.PC = PC
   }
 
-  generateCartItems();
-  update(selectedItem.id);
-  localStorage.setItem("data", JSON.stringify(basket));
-};
-let decrement = (id) => {
-  let selectedItem = id;
-  let search = basket.find((x) => x.id === selectedItem.id);
+  async startPayment(data, refUrl)  {
 
-  if (search === undefined) return;
-  else if (search.item === 0) return;
-  else {
-    search.item -= 1;
-  }
-  update(selectedItem.id);
-  basket = basket.filter((x) => x.item !== 0);
-  generateCartItems();
-  localStorage.setItem("data", JSON.stringify(basket));
-};
-
-let update = (id) => {
-  let search = basket.find((x) => x.id === id);
-  // console.log(search.item);
-  document.getElementById(id).innerHTML = search.item;
-  calculation();
-  TotalAmount();
-};
-
-let removeItem = (id) => {
-  let selectedItem = id;
-  // console.log(selectedItem.id);
-  basket = basket.filter((x) => x.id !== selectedItem.id);
-  generateCartItems();
-  TotalAmount();
-  localStorage.setItem("data", JSON.stringify(basket));
-};
-
-let clearCart = () => {
-  basket = [];
-  generateCartItems();
-  localStorage.setItem("data", JSON.stringify(basket));
-};
-
-
-let TotalAmount = () => {
-  if (basket.length !== 0) {
-    let amount = basket
-      .map((x) => {
-        let { item, id } = x;
-        let search = shopItemsData.find((y) => y.id === id) || [];
-
-        return item * search.price;
-      })
-      .reduce((x, y) => x + y, 0);
-      document.getElementById("finalBill").innerHTML = amount;
-
-    // console.log(amount);
-    label.innerHTML = `
-    <h2>Total Bill : ${amount} π</h2>
-    <div id = "finalBill" ></div>
-    <button id = "checkout" onclick="createPayment();" class="checkout">Pay with Pi</button> 
-    <button id = "clearcart" onclick="clearCart()" class="removeAll">Clear Cart</button>
-
-    `;
-  } else return;
-};
-
-TotalAmount();
+     async function sendFinalBill() { 
+         try {
+                         let message = JSON.stringify(data)
+                          const options = {
+                                            method: 'POST',
+                                            headers: {
+                                              'Content-Type': 'application/json',
+                                              //'Access-Control-Allow-Origin': '*',
+                                            //  'Authorization' : token
+                                                      },
+                                            body: message  
+                                           }
+                          const bill = await fetch('http://192.168.1.174:8020/merchant', options)
+                          const billResponse = await bill.json()
+                          console.log(billResponse)
+                    if(billResponse[0].Merchant == data.Merchant){ // need to check if this returns the merchant name
+                    const ua = navigator.userAgent
+                  if (/android/i.test(ua)) {
+                            const url = 'https://sandbox.minepi.com/app/piwormhole'
+                            processWindow = window.location.assign(url)
+                            clearInterval(timer)
+                               function run() {
+                               getConfirmation(billResponse[0]._id)
+                               }setTimeout(run, 5000)
+                  }
+                 else if (/iPad|iPhone|iPod/.test(ua)){
+                    
+                   processWindow = window.location.assign("pi://piwormhole.app")
+                     clearInterval(timer); 
+                     function run() {
+                     getConfirmation(billResponse[0]._id)
+                               }setTimeout(run, 5000)
+                } else { 
+                     let processWindow; 
+                     processWindow = window.open('https://sandbox.minepi.com/app/piwormhole');  
+                      clearInterval(timer)
+                           function run() {
+                               getConfirmation(billResponse[0]._id)
+                               }setTimeout(run, 5000)
+                         } 
+                       }  
+                      } catch(err) {
+                        console.log("Oops! Something went wrong when initialising payment")
+                      }                      
+               } let timer =setInterval(sendFinalBill, 5000) 
+          
+async function getConfirmation(xyz){
+       try {       
+       if(xyz) {
+              const refRes = await fetch(refUrl+`/${xyz}`);
+              const refResData = await refRes.json()
+              let status;
+              if(refResData.dBid == xyz && refResData.reference != "not completed") {
+              //  console.log("success")  
+              localStorage.setItem("Status", "successful")
+                return status =  "successful"
+                 }  else if(refResData.reference == 'not completed' && refResData.dBid == xyz) {
+                  localStorage.setItem("Status", "Payment not completed")
+                   console.log("Payment not completed")
+               return  status = "Payment not completed" // console.log("Payment not completed")
+              // return  status = console.log("Payment not completed")
+              } 
+            }
+          } catch(err){
+           console.log("Oops! Something went wrong. Error when fetching Payment Status")
+            console.error(err)
+          }
+       } 
+   }
+ }
