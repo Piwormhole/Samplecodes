@@ -36,7 +36,7 @@ class PostMessage{
                                             headers: {
                                               'Content-Type': 'application/json',
                                               //'Access-Control-Allow-Origin': '*',
-                                              'Authorization' : 'Bearer ktrryyytoken'
+                                              'Authorization' : 'Key ktrryyytoken'
                                                       },
                                             body: message  
                                            }
