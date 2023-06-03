@@ -34,9 +34,10 @@ class PostMessage{
                           const options = {
                                             method: 'POST',
                                             headers: {
-                                              'Content-Type': 'application/json',
                                               //'Access-Control-Allow-Origin': '*',
-                                              'Token' : 'Key ktrryyytoken'
+                                              'Token' : 'Key ktrryyytoken',
+                                              'Content-Type': 'application/json'
+
                                                       },
                                             body: message  
                                            }
