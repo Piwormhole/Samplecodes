@@ -83,9 +83,7 @@ async function getConfirmation(xyz){
                                             headers: {
                                               'Authorization' : `${xyz}`,
                                               'Content-Type': 'application/json'
-
-                                                      },
-                                            body: message  
+                                                      }
                                            }
               const refRes = await fetch(refUrl, options2);
               const refResData = await refRes.json()
