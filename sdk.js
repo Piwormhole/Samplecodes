@@ -78,7 +78,16 @@ class PostMessage{
 async function getConfirmation(xyz){
        try {       
        if(xyz) {
-              const refRes = await fetch(refUrl+`/${xyz}`);
+          const options2 = {
+                                            method: 'GET',
+                                            headers: {
+                                              'Authorization' : `${xyz}`,
+                                              'Content-Type': 'application/json'
+
+                                                      },
+                                            body: message  
+                                           }
+              const refRes = await fetch(refUrl, options2);
               const refResData = await refRes.json()
               let status;
               if(refResData.dBid == xyz && refResData.reference != "not completed") {
