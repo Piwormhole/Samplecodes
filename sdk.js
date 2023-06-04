@@ -79,12 +79,12 @@ async function getConfirmation(xyz){
        try {       
        if(xyz) {
           const options2 = {
-                                            method: 'GET',
-                                            headers: {
-                                              'Authorization' : `${xyz}`,
-                                              'Content-Type': 'application/json'
-                                                      }
-                                           }
+                             method: 'GET',
+                             headers: {
+                                       'Authorization' : `${xyz}`,
+                                       'Content-Type': 'application/json'
+                                       }
+                           }
               const refRes = await fetch(refUrl, options2);
               const refResData = await refRes.json()
               let status;
