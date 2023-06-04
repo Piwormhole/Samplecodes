@@ -106,3 +106,9 @@ async function getConfirmation(xyz){
        } 
    }
  }
+
+ class Status {
+  async getStatus(){
+   return localStorage.getItem(`Status`)
+   }
+ }
