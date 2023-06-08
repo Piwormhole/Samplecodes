@@ -35,7 +35,7 @@ class PostMessage{
                                             method: 'POST',
                                             headers: {
                                               //'Access-Control-Allow-Origin': '*',
-                                              'Authorization' : 'ktrryyytoken',
+                                              'Authorization' : '2ktrryyytoken',
                                               'Content-Type': 'application/json'
 
                                                       },
