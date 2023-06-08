@@ -26,7 +26,7 @@ class PostMessage{
     this.PC = PC
   }
 
-  async startPayment(data, refUrl)  {
+  async startPayment(data, refUrl, key)  {
 
      async function sendFinalBill() { 
          try {
