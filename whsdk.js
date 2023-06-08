@@ -35,7 +35,7 @@ class PostMessage{
                                             method: 'POST',
                                             headers: {
                                               //'Access-Control-Allow-Origin': '*',
-                                              'Authorization' : 'ktrryyytoken',
+                                              'Authorization' : 'testktrryyytoken',
                                               'Content-Type': 'application/json'
 
                                                       },
@@ -81,7 +81,8 @@ async function getConfirmation(xyz){
           const options2 = {
                              method: 'GET',
                              headers: {
-                                       'Authorization' : `${xyz}`,
+                                     //  'Authorization' : `${xyz}`,
+                                       'Authorization' : `ddffttt`,
                                        'Content-Type': 'application/json'
                                        }
                            }
